@@ -24,9 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$(awp+ob2#ba_1@=2lyj15aoi5zkj(-qcvxw=(s6-bcxia!05z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['teskoodude.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -99,7 +100,7 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
-# Autentication -data- 
+# Autentication -data-
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -114,6 +115,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 CORS_ALLOW_ALL_ORIGINS=True
 
 ROOT_URLCONF = 'teskobackend.urls'
@@ -121,7 +123,7 @@ ROOT_URLCONF = 'teskobackend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["templates"],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -191,13 +193,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS=[
-    BASE_DIR/'static'
+# STATICFILES_DIRS=[
+#     BASE_DIR/'static'
+# ]
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # global static folder
 ]
+
 
 MEDIA_ROOT='static/images'
 

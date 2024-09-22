@@ -9,18 +9,31 @@ from .models import ShippingAddress
 from .models import Transaction
 from rest_framework_simplejwt.tokens import RefreshToken
 
-class ProductSerializer(serializers.ModelSerializer): 
-    class Meta: 
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
         model=Product
         fields="__all__"
 
-class UserSerializer(serializers.ModelSerializer): 
+        # New
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Order
+        fields="__all__"
+
+class TransactionModelAllSerializer(serializers.ModelSerializer):
+     class Meta:
+        model=Transaction
+        fields= "__all__"
+
+        #New
+
+class UserSerializer(serializers.ModelSerializer):
     name=serializers.SerializerMethodField(read_only=True)
     _id=serializers.SerializerMethodField(read_only=True)
     isAdmin=serializers.SerializerMethodField(read_only=True)
     isActive=serializers.SerializerMethodField(read_only=True)
 
-    class Meta: 
+    class Meta:
         model=User
         fields=['id','_id','username','email','name','isAdmin','isActive']
 
@@ -41,38 +54,38 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_isActive(self,obj):
         return obj.is_active
-    
+
 class UserSerializerWithToken(UserSerializer):
     token=serializers.SerializerMethodField(read_only=True)
-    
-    class Meta: 
+
+    class Meta:
         model=User
         fields=['id','_id','username','email','name','isAdmin','token','isActive']
 
     def get_token(self,obj):
         token=RefreshToken.for_user(obj)
         return str(token.access_token)
-     
 
 
-class CartItemsSerializer(serializers.ModelSerializer): 
-     class Meta: 
+
+class CartItemsSerializer(serializers.ModelSerializer):
+     class Meta:
         model=CartItems
         fields="__all__"
 
 
-class ShippingAddressSerializer(serializers.ModelSerializer): 
-     class Meta: 
+class ShippingAddressSerializer(serializers.ModelSerializer):
+     class Meta:
         model=ShippingAddress
         fields="__all__"
 
-class OrderSerializer(serializers.ModelSerializer): 
-     class Meta: 
+class OrderSerializer(serializers.ModelSerializer):
+     class Meta:
         model=Order
         fields="__all__"
-        
-class OrderItemSerializer(serializers.ModelSerializer): 
-     class Meta: 
+
+class OrderItemSerializer(serializers.ModelSerializer):
+     class Meta:
         model=OrderItem
         fields="__all__"
 
@@ -80,7 +93,7 @@ class CreateOrderSerializer(serializers.Serializer):
         amount=serializers.IntegerField()
         currency=serializers.CharField()
 
-class TransactionModelSerializer(serializers.ModelSerializer): 
-     class Meta: 
+class TransactionModelSerializer(serializers.ModelSerializer):
+     class Meta:
         model=Transaction
-        fields=fields = ["payment_id", "order_id", "signature", "amount"]
+        fields = ["payment_id", "order_id", "signature", "amount"]
